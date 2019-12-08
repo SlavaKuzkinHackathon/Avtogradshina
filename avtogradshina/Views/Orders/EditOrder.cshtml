@@ -1,0 +1,57 @@
+﻿@model Order
+
+<h4 class="p-2 bg-primary text-white text-center">Создать/изменить заказ</h4>
+<form asp-action="AddOrUpdateOrder" method="post">
+    <div class="form-group">
+        <label asp-for="Id"></label>
+        <input asp-for="Id" class="form-control" readonly />
+    </div>
+    <div class="form-group">
+        <label asp-for="CustomerName">Имя клиента</label>
+        <input asp-for="CustomerName" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Address">Адрес</label>
+        <input asp-for="Address" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="NamberTel">Номер телефона</label>
+        <input asp-for="NamberTel" class="form-control" />
+    </div>
+
+    <div class="form-check">
+        <label class="form-check-label">
+            <input type="checkbox" asp-for="Shipped" class="form-check-input" />
+            Отправлен
+        </label>
+    </div>
+    <h6 class="mt-1 p-2 bg-primary text-white text-center">Заказанный товар</h6>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col font-weight-bold">Продукция</div>
+            <div class="col font-weight-bold">Категория</div>
+            <div class="col font-weight-bold">Количество</div>
+        </div>
+        @{ int counter = 0; }
+        @foreach (OrderLine line in ViewBag.Lines)
+        {
+            <input type="hidden" name="lines[@counter].Id" value="@line.Id" />
+            <input type="hidden" name="lines[@counter].ProductId"
+                   value="@line.ProductId" />
+            <input type="hidden" name="lines[@counter].OrderId" value="@Model.Id" />
+            <div class="row mt-1">
+                <div class="col">@line.Product.Name</div>
+                <div class="col">@line.Product.Category.Name</div>
+                <div class="col">
+                    <input type="number" name="lines[@counter].Quant"
+                           value="@line.Quant" />
+                </div>
+            </div>
+            counter++;
+        }
+    </div>
+    <div class="text-center m-2">
+        <button type="submit" class="btn btn-primary">Сохранить</button>
+        <a asp-action="Index" class="btn btn-secondary">Отмена</a>
+    </div>
+</form>

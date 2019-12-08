@@ -1,0 +1,53 @@
+﻿@model avtogradshina.Models.Admin.Product
+
+@{
+    ViewData["Title"] = ViewBag.CreateMode ? "Create" : "Edit";
+    Layout = "_LayoutAdmin";
+}
+
+
+        <form asp-action="@(ViewBag.CreateMode ? "Create" : "Edit")" method="post" enctype="multipart/form-data">
+            <div class="row">
+                <input name="original.Id" value="@Model?.Id" type="hidden" />
+                <input name="original.Category" value="@Model?.Category" type="hidden" />
+                <input name="original.Name" value="@Model?.Name" type="hidden" />
+                <input name="original.Price" value="@Model?.Price" type="hidden" />
+                <input name="original.InQuantity" value="@Model?.InQuantity" type="hidden" />
+                <input name="original.NameImage" value="@Model?.NameImage" type="hidden" />
+                <div class="form-group">
+                    <label asp-for="Category"></label>
+                    <select class="form-control" asp-for="CategoryId">
+                        @if (Model.Id == 0)
+                        {
+                            <option disabled selected>Выберите категорию</option>
+                        }
+                        @foreach (Category c in ViewBag.Categories)
+                        {
+                            <option selected=@(Model.Category?.Id == c.Id)
+                                    value="@c.Id">
+                                @c.Name
+                                </option>
+                            }
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Name"></label>
+                    <input asp-for="Name" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label asp-for="Price"></label>
+                    <input asp-for="Price" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label asp-for="InQuantity"></label>
+                    <input asp-for="InQuantity" class="form-control" />
+                </div>
+                <div>
+                    <input asp-for="NameImage" asp-action="Edit" asp-controller="Admin" type="file" name="uploadedFile" /><br>
+                </div>
+                <div class="text-center">
+                    <button class="btn btn-primary" type="submit">Сохранить</button>
+                    <a asp-action="Index" class="btn btn-secondary">Отмена</a>
+                </div>
+            </div>
+        </form>

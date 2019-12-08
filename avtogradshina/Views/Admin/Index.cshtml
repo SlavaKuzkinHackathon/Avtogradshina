@@ -1,0 +1,59 @@
+﻿@model IEnumerable<avtogradshina.Models.Admin.Product>
+
+
+@{
+    ViewData["Title"] = "Products";
+    Layout = "_LayoutAdmin";
+}
+
+<h4 class="p-2 bg-primary text-white text-center">Товар</h4>
+
+<div class="text-center">
+    @Html.Partial("Pages", Model)
+    @{
+           ViewBag.searches = new string[] { "Name", "Category.Name" };
+           ViewBag.sorts = new string[] { "Name", "Category.Name",
+           "Price", "InQuantity"};
+      }
+      @Html.Partial("PageOptions", Model)
+</div>
+
+
+<br>
+<div class="table-responsive">
+    <table class="table table-sm table-striped">
+        <thead>
+            <tr><th>ID</th><th>Категория</th><th>Наименование</th><th>Стоимость</th><th>Количество</th><th>Изображение</th></tr>
+        </thead>
+        <tbody>
+
+
+            @foreach (var p in Model)
+            {
+            <tr>
+                <td>@p.Id</td>
+                <td>@p.Category.Name </td>
+                <td>@p.Name</td>
+                <td>@p.Price.ToString("F2") &#8381</td>
+                <td>@p.InQuantity</td>
+                <td><img style='height:65px' ; src="@Url.Content(p.Path)"></td>
+                <td>
+                    <form asp-action="Delete" method="post">
+                        <a asp-action="Edit" class="btn btn-sm btn-warning"
+                           asp-route-id="@p.Id">
+                            Изменить
+                        </a>
+                        <input type="hidden" name="id" value="@p.Id" />
+                        <button type="submit" class="btn btn-danger btn-sm">
+                            удалить
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+    <br>
+    <a asp-action="Create" class="btn btn-primary">Добавить новый продукт</a>
+
+</div>

@@ -1,0 +1,137 @@
+﻿
+@model PagedList<Product>
+
+@{
+    ViewData["Title"] = "Шины, Диски, Аккумуляторы в Новосибирске";
+}
+
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
+<link rel="stylesheet" href="~/css/site.css" />
+<link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<div id="modDialog" class="modal fade">
+    <div id="dialogContent" class="modal-dialog"></div>
+</div>
+
+<div class="container-fluid">
+    <div class="row no-gutters">
+        <div class="col-auto">
+            @Html.Partial("Categories", ViewBag.Categories as PagedList<Category>)
+        </div>
+        <div class="col">
+            <div class="container-fluid">
+                <div class="row pt-4 pb-1">
+                    <div class="col text-center">
+                        @Html.Partial("Pages", Model)
+                    </div>
+                </div>
+                <div class="row pt-1 pb-1">
+                    <div class="col"></div>
+                    <div class="col-6 text-center form-group">
+                        <input form="pageform" type="hidden"
+                               name="options.searchpropertyname" value="Name" />
+                        <input form="pageform" name="options.searchterm"
+                               placeholder="Seach..." class="form-control" />
+                    </div>
+                    <div class="col">
+                        <button form="pageform" class="btn btn-secondary"
+                                type="submit">
+                            Search
+                        </button>
+                    </div>
+                    <div class="col"></div>
+                </div>
+
+                @foreach (var f in Model)
+                {
+                    <div class="row">
+                        <div class="col">
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" style="margin-bottom:8px">
+                                <div class="thumbnail product-item" style="max-width: 330px;
+                                      width: 100%;">
+                                    <br>
+                                    <img alt="" class="img center, img-responsive" title="Подробно о модели"
+                                         style="cursor:pointer; height:129px;"
+                                         src="@Url.Content(f.Path)" />
+                                    <div class="caption">
+                                        <h3>
+                                            @Html.ActionLink(f.Name, "Details",
+                                            new { id = f.Id }, new { @class = "proItem" })
+                                        </h3>
+
+                                        <p>@f.Price &#8381</p>
+                                        <p>@f.Category.Name</p>
+                                    </div>
+                                    <form id="@f.Id" asp-action="AddToCart"
+                                          asp-controller="Cart" method="post">
+                                        <input type="hidden" name="Id" value="@f.Id" />
+                                        <input type="hidden" name="Name"
+                                               value="@f.Name" />
+                                        <input type="hidden" name="RetailPrice"
+                                               value="@f.Price" />
+                                        <input type="hidden" name="returnUrl" value="@ViewContext.HttpContext.Request.PathAndQuery()" />
+                                        <span class="card-text p-1">
+                                           
+                                            <button type="submit"
+                                                    class="btn btn-success btn-sm pull-right"
+                                                    style="float:right">
+                                                Add To Cart
+                                            </button>
+                                        </span>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<!--запасной-->
+@*@foreach (var f in Model)
+    {
+        <div class="col">
+            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" style="margin-bottom:8px">
+                <div class="thumbnail product-item" style="height:300px">
+                    <img alt="" class="img center, img-responsive" title="Click to View Product detail"
+                         style="cursor:pointer; height:129px;"
+                         src="@Url.Content(f.Path)" />
+                    <div class="caption">
+                        <h3>@f.Name</h3>
+                        <h4>
+                            @f.Description
+                        </h4>
+                        <p>@f.Price &#8381</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }*@
+
+@*<div class="container">
+        <div class="class=" col-lg-8 col-md-4 col-sm-6 col-xs-12>
+            <h4 class="text-center">
+                Магазин "Автоградшина"
+            </h4>
+            <h4 class="text-center">
+                предлагает:
+            </h4>
+            <h4 class="text-center">
+                Широкий ассортимент Шин, Дисков, Аккумуляторов
+            </h4>
+            <h4 class="text-center">
+                На рынке с 2010 года
+            </h4>
+            <h5 class="text-center">Индивидуальный подход и подбор</h5>
+            <h5 class="text-center">
+                г. Новосибирск ТЦ "Автоград" ул.Доватора, 11
+                <span>Второй этаж отдел "АвтоградШина"</span>
+            </h5>
+            <h5 class="text-center"><i class="fa fa-phone" aria-hidden="true"></i>  +79137009150</h5>
+        </div>
+    </div>*@

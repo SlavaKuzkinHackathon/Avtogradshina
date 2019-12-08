@@ -1,0 +1,44 @@
+﻿@model IEnumerable<Product>
+<h3 class="p-2 bg-primary text-white text-center">Тестовая база данных товаров</h3>
+<form method="post">
+    <div class="form-group">
+        <label>Количество создаваемых товаров</label>
+        <input class="form-control" name="count" value="50" />
+    </div>
+    <div class="text-center">
+        <button type="submit" asp-action="CreateProductionData"
+                class="btn btn-outline-primary">
+            Тестовый товар
+        </button>
+        <button type="submit" asp-action="CreateSeedData" class="btn btn-primary">
+            Тестовая база
+        </button>
+        <button asp-action="ClearData" class="btn btn-danger">
+            ! Очистить !
+        </button>
+    </div>
+</form>
+<h5 class="text-center m-2">
+    В тестовой базе данных @ViewBag.Count товаров
+</h5>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-1 font-weight-bold">Id</div>
+        <div class="col font-weight-bold">Категория товара</div>
+        <div class="col font-weight-bold">Название</div>
+        <div class="col font-weight-bold text-right">Стоимость</div>
+        <div class="col font-weight-bold text-right">Количество</div>
+        <div class="col font-weight-bold text-right">Изображение</div>
+    </div>
+    @foreach (Product p in Model)
+    {
+    <div class="row">
+        <div class="col-1">@p.Id</div>
+        <div class="col">@p.Category.Name</div>
+        <div class="col">@p.Name</div>
+        <div class="col text-right">@p.Price</div>
+        <div class="col text-right">@p.InQuantity</div>
+        <div class="col text-right">@p.Path</div>
+    </div>
+    }
+</div>
