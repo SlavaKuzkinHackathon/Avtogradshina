@@ -13,7 +13,5 @@ dotnet ef migrations add Initial --context AppIdentityDbContext
 dotnet sql-cache create "Data Source=localhost\SQLEXPRESS; Database=avtogradshinaProducts;Persist Security Info=False; MultipleActiveResultSets=True; Trusted_Connection=True" dbo SessionData
 
 
-admin@gmail.com
-_Aa123456
 
 
